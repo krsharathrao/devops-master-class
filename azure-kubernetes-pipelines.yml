@@ -15,3 +15,16 @@ steps:
 - task: TerraformInstaller@1
   inputs:
     terraformVersion: 'latest'
+- task: DownloadSecureFile@1
+  name: publickey
+  inputs:
+    secureFile: 'azure_rsa.pub'
+- task: TerraformTask@5
+  inputs:
+    provider: 'azurerm'
+    command: 'init'
+    backendServiceArm: 'azure-resource-manager-service-connection'
+    backendAzureRmResourceGroupName: 'terraform-be-rg'
+    backendAzureRmStorageAccountName: 'storageaccountkrsharathrao79'
+    backendAzureRmContainerName: 'storageaccountkrsharathrao79container'
+    backendAzureRmKey: 'k8s-dev.tfstate'
