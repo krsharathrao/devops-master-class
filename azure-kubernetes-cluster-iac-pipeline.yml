@@ -16,20 +16,19 @@ steps:
   name: publickey
   inputs:
     secureFile: 'azure_rsa.pub'
-
 - task: TerraformInstaller@1
-  displayName: 'Install Terraform'
   inputs:
     terraformVersion: 'latest'
+
+- bash: echo "The working directory is $(System.DefaultWorkingDirectory)"
 - task: TerraformTask@5
   inputs:
     provider: 'azurerm'
     command: 'init'
-    workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/azure/kubernetes'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/projects/microservices/01-currency-exchange-microservice-basic/configuration/iaac/azure/kubernetes'
     commandOptions: '-var client_id=$(client_id) -var client_secret=$(client_secret) -var ssh_public_key=$(publickey.secureFilePath)'
     backendServiceArm: 'azure-resource-manager-service-connection'
     backendAzureRmResourceGroupName: 'terraform-backend-rg'
     backendAzureRmStorageAccountName: 'storageaccountkrsharathrao'
     backendAzureRmContainerName: 'storageaccountkrsharathrao_container'
     backendAzureRmKey: 'kubernetes-dev.tfstate'
-
